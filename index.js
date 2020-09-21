@@ -1,32 +1,32 @@
-//folder creation
-const fs = require('fs');
-const path = require('path');
-//get URL
-const cheerio = require('cheerio');
-const DilbertURL = 'https://memegen.link/examples';
-let content = [];
-let objCount = [];
-
-//downloading
+// downloading
 const request = require('request');
+// folder creation
+const fs = require('fs');
+// get URL
+const cheerio = require('cheerio');
+const url = 'https://memegen.link/examples';
+const content = [];
+const objCount = [];
+
 const download = (url, path, callback) => {
   request.head(url, (err, res, body) => {
     request(url).pipe(fs.createWriteStream(path)).on('close', callback);
   });
 };
 
-//folder creation
+// folder creation
 
-fs.mkdir((path.join('c/Users', '/../projects'), 'meme'), (err) => {
+fs.mkdir('./meme', (err) => {
   if (err) {
-    return console.error(err);
+    console.log('Directory has been created already!');
+  } else {
+    console.log('Directory created successfully!');
   }
-  console.log('Directory created successfully!');
 });
 
-//get URL&download
+// get URL&download
 
-request(DilbertURL, function (error, response, body) {
+request(url, function (error, response, body) {
   const $ = cheerio.load(body);
   $('.row a .meme-img').each((i, element) => {
     objCount.push(
